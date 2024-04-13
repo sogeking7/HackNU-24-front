@@ -1,6 +1,6 @@
-import { NavItem } from "../../../types";
-import { Logo } from "../logo";
-import { MobileSidebar } from "./mobile-sidebar";
+import { NavItem } from "../../../../types";
+import Image from "next/image";
+import Link from "next/link";
 import { Navigations } from "./navigations";
 
 export const Header = () => {
@@ -10,30 +10,31 @@ export const Header = () => {
       path: "/",
     },
     {
-      label: "Dashboard",
-      path: "/dashboard",
+      label: "Bank Cards",
+      path: "/bank-cards",
     },
     {
-      label: "Offers",
+      label: "Cashback Offers",
       path: "/offers",
     },
     {
       label: "Banks",
       path: "/banks",
     },
+    {
+      label: "Categories",
+      path: "/category",
+    },
   ];
 
   return (
     <header className="h-[72px] sm:h-[80px]">
       <div className="container mx-auto flex h-full items-center justify-between">
-        <Logo />
+        <Link href="/" className="w-[60px] text-2xl font-bold uppercase">
+          <Image alt="logo" width={50} height={50} src="/logo.jpg" />
+        </Link>
         <div className="flex items-center gap-6 md:gap-10">
-          <div className="max-md:!hidden">
-            <Navigations links={links} />
-          </div>
-          <div className="md:!hidden">
-            <MobileSidebar links={links} />
-          </div>
+          <Navigations links={links} />
         </div>
       </div>
     </header>

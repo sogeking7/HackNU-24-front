@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { NavItem } from "../../../types";
+import { NavItem } from "../../../../types";
 
 type Props = {
   links: NavItem[];
@@ -11,7 +11,6 @@ type Props = {
 };
 export const Navigations = ({ links, setIsOpen }: Props) => {
   const pathname = usePathname();
-  console.log(pathname);
 
   return (
     <nav className="max-md:mb-6 max-md:mt-12">
@@ -20,7 +19,7 @@ export const Navigations = ({ links, setIsOpen }: Props) => {
           <li
             className={cn(
               pathname === path ? "font-semibold" : "font-regular",
-              "max-md:text-center"
+              "max-md:text-center",
             )}
             key={path}
           >

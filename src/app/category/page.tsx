@@ -1,16 +1,16 @@
-import { OffersList } from "@/components/offer/offers-list";
-import { PanelOffer } from "@/components/offer/panel";
+import { CategoryList } from "@/components/category/category-list";
+import { PanelCategory } from "@/components/category/panel";
 
 export default function Page() {
   return (
     <main className="m-container mb-20 mt-6 space-y-4">
       <div className="flex justify-between items-center">
-        <h1 className="font-bold text-2xl">Cashback Offers</h1>
+        <h1 className="font-bold text-2xl">Categories</h1>
         <div className="flex gap-5">
-          <PanelOffer />
+          <PanelCategory />
         </div>
       </div>
-      <OffersList />
+      <CategoryList />
     </main>
   );
 }

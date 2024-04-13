@@ -9,7 +9,6 @@ import { Footer } from "@/components/footer";
 import { NavigationEvents } from "@/components/navigation-events";
 import { Suspense } from "react";
 
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "HackNU 24",
@@ -28,7 +27,7 @@ export default function RootLayout({
       }}
     >
       <html lang="en">
-        <body className={inter.className}>
+        <body>
           <Providers>
             <main className="relative min-h-screen bg-background pb-[72px] antialiased sm:pb-[80px]">
               <Header />

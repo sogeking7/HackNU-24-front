@@ -1,5 +1,6 @@
 import { BankCardsList } from "@/components/bank-cards/bank-cards-list";
 import { PanelBankCards } from "@/components/bank-cards/panel";
+import { Suspense } from "react";
 
 export default function Page() {
   return (
@@ -10,7 +11,9 @@ export default function Page() {
           <PanelBankCards />
         </div>
       </div>
-      <BankCardsList />
+      <Suspense fallback={<div>Loading...</div>}>
+        <BankCardsList />
+      </Suspense>
     </main>
   );
 }

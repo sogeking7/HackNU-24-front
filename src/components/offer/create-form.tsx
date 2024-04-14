@@ -64,7 +64,7 @@ export const OfferCreateForm = ({ setOpen, edit = false, data }: any) => {
   } = useCategoryStore();
 
   const { isLoading: isCategoryLoading } = useQuery("categories", {
-    queryFn: () => getAllCategories(),
+    queryFn: () => getAllCategories(0, 100),
     onSuccess: ({ data }) => {
       initCategories(data.content);
     },
@@ -72,7 +72,7 @@ export const OfferCreateForm = ({ setOpen, edit = false, data }: any) => {
   });
 
   const { isLoading: isBankCardLoading } = useQuery("bank-cards", {
-    queryFn: () => getAllBankCards(),
+    queryFn: () => getAllBankCards(0, 100),
     onSuccess: ({ data }) => {
       const formatted = data.content.map((i: BankCard) => {
         //@ts-ignore

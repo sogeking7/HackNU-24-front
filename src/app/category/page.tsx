@@ -1,5 +1,6 @@
 import { CategoryList } from "@/components/category/category-list";
 import { PanelCategory } from "@/components/category/panel";
+import { Suspense } from "react";
 
 export default function Page() {
   return (
@@ -10,7 +11,9 @@ export default function Page() {
           <PanelCategory />
         </div>
       </div>
-      <CategoryList />
+      <Suspense fallback={<div>Loading...</div>}>
+        <CategoryList />
+      </Suspense>
     </main>
   );
 }

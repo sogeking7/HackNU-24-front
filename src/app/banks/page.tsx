@@ -1,5 +1,6 @@
 import { BanksList } from "@/components/bank/banks-list";
 import { PanelBank } from "@/components/bank/panel";
+import { Suspense } from "react";
 
 export default function Page() {
   return (
@@ -10,7 +11,9 @@ export default function Page() {
           <PanelBank />
         </div>
       </div>
-      <BanksList />
+      <Suspense fallback={<div>Loading...</div>}>
+        <BanksList />
+      </Suspense>
     </main>
   );
 }

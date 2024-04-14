@@ -29,7 +29,9 @@ export const BankCardsList = () => {
         return {
           id: i.id,
           name: i.name,
+          //@ts-ignore
           bank_name: i.bank.name,
+          //@ts-ignore
           bankId: i.bank.id,
           image: i.image,
           comment: i.comment,

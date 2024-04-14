@@ -1,5 +1,6 @@
 import { OffersList } from "@/components/offer/offers-list";
 import { PanelOffer } from "@/components/offer/panel";
+import { Suspense } from "react";
 
 export default function Page() {
   return (
@@ -10,7 +11,9 @@ export default function Page() {
           <PanelOffer />
         </div>
       </div>
-      <OffersList />
+      <Suspense fallback={<div>Loading...</div>}>
+        <OffersList />
+      </Suspense>
     </main>
   );
 }

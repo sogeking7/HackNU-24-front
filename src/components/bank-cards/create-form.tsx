@@ -44,7 +44,7 @@ export const BankCardsCreateForm = ({
   });
 
   const { isLoading: isBanksLoading } = useQuery("banks", {
-    queryFn: () => getAll(),
+    queryFn: () => getAll(0, 100),
     onSuccess: ({ data }) => {
       init(data.content);
     },

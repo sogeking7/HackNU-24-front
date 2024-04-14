@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
-import { dark } from "@clerk/themes";
 import Providers from "../../lib/providers";
 import { Header } from "@/components/ui/header";
 import { Footer } from "@/components/ui/footer";
@@ -17,22 +15,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider
-      appearance={{
-        baseTheme: dark,
-      }}
-    >
-      <html lang="en">
-        <body>
-          <Providers>
-            <main className="relative min-h-screen bg-background pb-[72px] antialiased sm:pb-[80px]">
-              <Header />
-              {children}
-              <Footer />
-            </main>
-          </Providers>
-        </body>
-      </html>
-    </ClerkProvider>
+    <html lang="en">
+      <body>
+        <Providers>
+          <main className="relative min-h-screen bg-background pb-[72px] antialiased sm:pb-[80px]">
+            <Header />
+            {children}
+            <Footer />
+          </main>
+        </Providers>
+      </body>
+    </html>
   );
 }

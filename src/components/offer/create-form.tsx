@@ -22,25 +22,36 @@ import { Skeleton } from "../ui/skeleton";
 import { useOfferStore } from "../../../store/offer";
 import { DateRange } from "react-day-picker";
 import { DatePickerWithRange } from "../ui/custom/date-picker-range";
-import { formatDate } from "../../../lib/utils";
+import { formatDate, parseDateString } from "../../../lib/utils";
 
-export const OfferCreateForm = ({ setOpen }: any) => {
+export const OfferCreateForm = ({ setOpen, edit = false, data }: any) => {
   const queryClient = useQueryClient();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
-
-  const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(2022, 0, 20),
-    to: addDays(new Date(2022, 0, 20), 20),
+  } = useForm({
+    defaultValues: {
+      percentage: data?.percentage,
+      conditions: data?.conditions,
+    },
   });
-  const [bankCardId, setBankCardId] = useState<string | undefined>();
-  const [categoryId, setCategoryId] = useState<string | undefined>();
 
-  const { create } = useOfferStore();
+  const [date, setDate] = React.useState<DateRange | undefined>(() => {
+    return {
+      from: data?.dateFrom ? parseDateString(data.dateFrom) : undefined,
+      to: data?.dateFrom ? parseDateString(data.dateTo) : undefined,
+    };
+  });
+  const [bankCardId, setBankCardId] = useState<string | undefined>(() => {
+    return data?.bankNameId ? String(data?.bankNameId) : undefined;
+  });
+  const [categoryId, setCategoryId] = useState<string | undefined>(() => {
+    return data?.categoryId ? String(data?.categoryId) : undefined;
+  });
+
+  const { create, update } = useOfferStore();
   const {
     init: initBankCards,
     getAll: getAllBankCards,
@@ -75,6 +86,9 @@ export const OfferCreateForm = ({ setOpen }: any) => {
 
   const mutation = useMutation({
     mutationFn: (newData: Offer) => {
+      if (edit) {
+        return update(data.id, newData);
+      }
       return create(newData);
     },
     onSuccess: () => {
@@ -92,8 +106,11 @@ export const OfferCreateForm = ({ setOpen }: any) => {
       dateFrom: formatDate(date.from),
       dateTo: formatDate(date.to),
     };
+    console.log(dto);
     mutation.mutate(dto);
-    setOpen(false);
+    if (setOpen) {
+      setOpen(false);
+    }
   };
 
   return (
@@ -152,7 +169,7 @@ export const OfferCreateForm = ({ setOpen }: any) => {
         <DatePickerWithRange date={date} setDate={setDate} />
       </div>
       <Button type="submit" className="w-full">
-        Create
+        {edit ? "Edit" : "Create"}
       </Button>
     </form>
   );

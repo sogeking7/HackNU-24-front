@@ -13,14 +13,11 @@ export const Navigations = ({ links, setIsOpen }: Props) => {
   const pathname = usePathname();
 
   return (
-    <nav className="max-md:mb-6 max-md:mt-12">
-      <ul className="flex flex-col gap-6 md:flex-row md:items-center md:gap-10">
+    <nav>
+      <ul className="flex flex-row items-center gap-10">
         {links.map(({ path, label }) => (
           <li
-            className={cn(
-              pathname === path ? "font-semibold" : "font-regular",
-              "max-md:text-center",
-            )}
+            className={cn(pathname === path ? "font-semibold" : "font-regular")}
             key={path}
           >
             <Link

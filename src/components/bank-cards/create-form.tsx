@@ -18,18 +18,30 @@ import { Skeleton } from "../ui/skeleton";
 import { useState } from "react";
 import { BankCard } from "../../../types";
 
-export const BankCardsCreateForm = ({ setOpen }: any) => {
+export const BankCardsCreateForm = ({
+  setOpen,
+  edit = false,
+  data: Idata,
+}: any) => {
   const queryClient = useQueryClient();
 
-  const { create } = useBankCardStore();
+  const { create, update } = useBankCardStore();
   const { getAll, init, data } = useBankStore();
 
-  const [bankId, setBankId] = useState<string | undefined>();
+  const [bankId, setBankId] = useState<string | undefined>(() => {
+    return Idata?.bankId ? String(Idata?.bankId) : undefined;
+  });
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      name: Idata?.name,
+      comment: Idata?.comment,
+      image: Idata?.image,
+    },
+  });
 
   const { isLoading: isBanksLoading } = useQuery("banks", {
     queryFn: () => getAll(),
@@ -41,6 +53,9 @@ export const BankCardsCreateForm = ({ setOpen }: any) => {
 
   const mutation = useMutation({
     mutationFn: (newData: BankCard) => {
+      if (edit) {
+        return update(Idata.id, newData);
+      }
       return create(newData);
     },
     onSuccess: () => {
@@ -52,7 +67,9 @@ export const BankCardsCreateForm = ({ setOpen }: any) => {
     if (!bankId) return;
     const dto = { ...data, bankId };
     mutation.mutate(dto);
-    setOpen(false);
+    if (setOpen) {
+      setOpen(false);
+    }
   };
 
   return (
@@ -83,7 +100,7 @@ export const BankCardsCreateForm = ({ setOpen }: any) => {
         <Input placeholder="Image Link" required {...register("image")} />
       </div>
       <Button type="submit" className="w-full">
-        Create
+        {edit ? "Edit" : "Create"}
       </Button>
     </form>
   );

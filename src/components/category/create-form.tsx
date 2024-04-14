@@ -6,18 +6,26 @@ import { Button } from "../ui/button";
 import { useCategoryStore } from "../../../store/category";
 import { useMutation, useQueryClient } from "react-query";
 import { Category } from "../../../types";
-export const CategoryCreateForm = ({ setOpen }: any) => {
+export const CategoryCreateForm = ({ setOpen, edit = false, data }: any) => {
   const queryClient = useQueryClient();
 
-  const { create } = useCategoryStore();
+  const { create, update } = useCategoryStore();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      name: data?.name,
+      image: data?.image,
+    },
+  });
 
   const mutation = useMutation({
     mutationFn: (newData: Category) => {
+      if (edit) {
+        return update(data.id, newData);
+      }
       return create(newData);
     },
     onSuccess: () => {
@@ -27,7 +35,9 @@ export const CategoryCreateForm = ({ setOpen }: any) => {
 
   const onSubmit = async (data: any) => {
     mutation.mutate(data);
-    setOpen(false);
+    if (setOpen) {
+      setOpen(false);
+    }
   };
 
   return (
@@ -37,7 +47,7 @@ export const CategoryCreateForm = ({ setOpen }: any) => {
         <Input placeholder="Image Link" required {...register("image")} />
       </div>
       <Button type="submit" className="w-full">
-        Create
+        {edit ? "Edit" : "Create"}
       </Button>
     </form>
   );

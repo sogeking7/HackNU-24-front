@@ -7,18 +7,26 @@ import { useBankStore } from "../../../store/bank";
 import { useMutation, useQueryClient } from "react-query";
 import { Bank } from "../../../types";
 
-export const BankCreateForm = ({ setOpen }: any) => {
+export const BankCreateForm = ({ setOpen, edit = false, data }: any) => {
   const queryClient = useQueryClient();
 
-  const { create } = useBankStore();
+  const { create, update } = useBankStore();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      name: data?.name,
+      image: data?.image,
+    },
+  });
 
   const mutation = useMutation({
     mutationFn: (newData: Bank) => {
+      if (edit) {
+        return update(data.id, newData);
+      }
       return create(newData);
     },
     onSuccess: () => {
@@ -28,7 +36,9 @@ export const BankCreateForm = ({ setOpen }: any) => {
 
   const onSubmit = async (data: any) => {
     mutation.mutate(data);
-    setOpen(false);
+    if (setOpen) {
+      setOpen(false);
+    }
   };
 
   return (
@@ -38,7 +48,7 @@ export const BankCreateForm = ({ setOpen }: any) => {
         <Input placeholder="Image Link" required {...register("image")} />
       </div>
       <Button type="submit" className="w-full">
-        Create
+        {edit ? "Edit" : "Create"}
       </Button>
     </form>
   );

@@ -26,3 +26,12 @@ export const shorten = (text: string, length: number) => {
 export const formatDate = (date: Date): string => {
   return date.toISOString().split("T")[0];
 };
+
+export function parseDateString(dateString: string) {
+  var parts = dateString.split("-");
+  var year = parseInt(parts[0], 10);
+  var month = parseInt(parts[1], 10) - 1; // Month is 0-indexed in JavaScript
+  var day = parseInt(parts[2], 10);
+
+  return new Date(year, month, day);
+}
